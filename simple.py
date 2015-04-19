@@ -30,7 +30,7 @@ class getPic(threading.Thread):
     def downloadimg(self):
         for imgurl in self.imgurl_list:
             suffix= uuid.uuid1()
-            pic_name = 'pages/%s.html' %(suffix)
+            pic_name = 'shouer/pages/%s.html' %(suffix)
             cookies = urllib2.HTTPCookieProcessor()
             opener = urllib2.build_opener(cookies)
             opener.addheaders = [('User-agent', 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0')]
