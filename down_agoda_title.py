@@ -15,7 +15,7 @@ imgurl_list = []
 #获取图片地址函数
 def imgurlList():
     global imgurl_list
-    fp=open("tmp.txt", "r");
+    fp=open("id_urls.txt", "r");
     for eachline in fp:
         eachline=eachline.replace('\r','')
         eachline=eachline.replace('\n','')
@@ -29,18 +29,21 @@ class getPic(threading.Thread):
         self.timeout = 600
     def downloadimg(self):
         for imgurl in self.imgurl_list:
-            suffix= uuid.uuid1()
-            pic_name = 'dongjing/pages/%s.html' %(suffix)
+            hotelId=imgurl.split('#')[0]
+            url=imgurl.split('#')[-1]            
             cookies = urllib2.HTTPCookieProcessor()
             opener = urllib2.build_opener(cookies)
             opener.addheaders = [('User-agent', 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0')]
             urllib2.install_opener(opener)              
             try:
-                data_img = opener.open(imgurl,timeout=self.timeout)
-                f = open (pic_name,'wb')
-                f.write(data_img.read())
+                data_img = opener.open(url,timeout=self.timeout)
+                urldata=data_img.read()
+                pattern = re.compile(r'''_ga.cv03\s*=\s*"(.+?)";''', re.I | re.M)
+                title=pattern.findall(urldata)                
+                f = open ("sql.txt",'a+')
+                f.write("INSERT INTO pre_position SET title_en=#%s# WHERE id=%s;\n" %(title[0],hotelId))
                 f.close()                
-                print pic_name+'--OK!!'
+                print imgurl+'--OK!!'
             except:
                 f= open("failed.txt",'a+')
                 f.write("%s\n" %imgurl)

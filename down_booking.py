@@ -13,15 +13,15 @@ import os
 post_data = []
 pageurl_list=[]
 #是否从本地已失败的链接获取下载地址
-dntGetByFaild=False
+dntGetByFaild=True
 #获取图片地址函数
 def imgurlList():
     global post_data,dntGetByFaild
     if dntGetByFaild:            
-        total=383
+        total=557
         for i in range(1,total/50+2):
             offset=(i-1)*50
-            one_line="http://www.booking.com/searchresults.zh-cn.html?sid=6f235e47f95b9ff60478c66605814bb1;dcid=4;class_interval=1;csflt=%7B%7D;dest_id=-2637882;dest_type=city;dtdisc=0;hlrd=0;hyb_red=0;idf=1;inac=0;nha_red=0;no_rooms=1;redirected_from_city=0;redirected_from_landmark=0;redirected_from_region=0;region=4862;review_score_group=empty;score_min=0;si=ai%2Cco%2Cci%2Cre%2Cdi;src=searchresults;ss=%E5%8F%B0%E5%8C%97%2C%20%E5%8F%B0%E5%8C%97%2C%20%E5%8F%B0%E6%B9%BE;ss_all=0;ss_raw=%E5%8F%B0%E5%8C%97;ssb=empty;sshis=0;ssne_untouched=%E9%A9%AC%E5%B0%94%E4%BB%A3%E5%A4%AB&;rows=50;offset={0}".format(offset)
+            one_line="http://www.booking.com/searchresults.zh-cn.html?sid=6f235e47f95b9ff60478c66605814bb1;dcid=4;city=-246227;class_interval=1;csflt=%7B%7D;dtdisc=0;hlrd=0;hyb_red=0;inac=0;nha_red=0;redirected_from_city=0;redirected_from_landmark=0;redirected_from_region=0;review_score_group=empty;score_min=0;ss_all=0;ssb=empty;sshis=0&;rows=50;offset={0}".format(offset)
             post_data.append(one_line)
     else:
         fp=open("shouer.txt", "r");
@@ -71,7 +71,7 @@ class getPage(threading.Thread):
     def downPage(self):
         for pageurl in self.pageurl_list:
             suffix= uuid.uuid1()
-            pic_name = 'shouer/pages/%s.html' %(suffix)
+            pic_name = 'dongjing/pages/%s.html' %(suffix)
             cookies = urllib2.HTTPCookieProcessor()
             opener = urllib2.build_opener(cookies)
             opener.addheaders = [('User-agent', 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0')]
