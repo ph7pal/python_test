@@ -15,7 +15,7 @@ imgurl_list = []
 #获取图片地址函数
 def imgurlList():
     global imgurl_list
-    fp=open("id_urls.txt", "r");
+    fp=open("b_urls.txt", "r");
     for eachline in fp:
         eachline=eachline.replace('\r','')
         eachline=eachline.replace('\n','')
@@ -38,9 +38,10 @@ class getPic(threading.Thread):
             try:
                 data_img = opener.open(url,timeout=self.timeout)
                 urldata=data_img.read()
-                pattern = re.compile(r'''_ga.cv03\s*=\s*"(.+?)";''', re.I | re.M)
-                title=pattern.findall(urldata)                
-                f = open ("sql.txt",'a+')
+                pattern = re.compile(r'''<span\s*class="fn"\s*id="hp_hotel_name">(.+?)</span>''', re.I | re.M)
+                title=pattern.findall(urldata)
+                
+                f = open ("b_sql.txt",'a+')
                 f.write("UPDATE pre_position SET title_en=#%s# WHERE id=%s;\n" %(title[0],hotelId))
                 f.close()                
                 print imgurl+'--OK!!'
